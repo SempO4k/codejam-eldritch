@@ -17,25 +17,25 @@
 // import green17 from './green17.png';
 // import green18 from './green18.png';
 
-const cards = {
-  green1: '../green/green1.png',
-  green2: '../green/green2.png',
-  green3: '../green/green3.png',
-  green4: '../green/green4.png',
-  green5: '../green/green5.png',
-  green6: '../green/green6.png',
-  green7: '../green/green7.png',
-  green8: '../green/green8.png',
-  green9: '../green/green9.png',
-  green10: '../green/green10.png',
-  green11: '../green/green11.png',
-  green12: '../green/green12.png',
-  green13: '../green/green13.png',
-  green14: '../green/green14.png',
-  green15: '../green/green15.png',
-  green16: '../green/green16.png',
-  green17: '../green/green17.png',
-  green18: '../green/green18.png',
-};
+// const cards = {
+//   green1: '../assets/MythicCards/green/green1.png',
+//   green2: './green2.png',
+//   green3: '../green/green3.png',
+//   green4: '../green/green4.png',
+//   green5: '../green/green5.png',
+//   green6: '../green/green6.png',
+//   green7: '../green/green7.png',
+//   green8: '../green/green8.png',
+//   green9: '../green/green9.png',
+//   green10: '../green/green10.png',
+//   green11: '../green/green11.png',
+//   green12: '../green/green12.png',
+//   green13: '../green/green13.png',
+//   green14: '../green/green14.png',
+//   green15: '../green/green15.png',
+//   green16: '../green/green16.png',
+//   green17: '../green/green17.png',
+//   green18: '../green/green18.png',
+// };
 
-export default cards;
+// export default cards;
