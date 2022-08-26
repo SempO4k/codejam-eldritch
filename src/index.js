@@ -97,7 +97,6 @@ const makePack = () => {
         }
       }
       // take brown cards in draft
-
       for (let j = 0; j < brownCards.length; j++) {
         if (brownCount < 5) {
           if (brownCards[j].difficulty === difficulties[1].id) {
@@ -123,29 +122,166 @@ const makePack = () => {
         if (blueCount != 2) {
           if (blueCards[v].difficulty == difficulties[1].id) {
             draftPack.push(blueCards[v]);       
-            console.log(v)
             blueCount++;
           }
         } if (blueCount == 2) {
           break
         }
-        // let pushCount = 0;
-        // console.log(`count before ${pushCount}`)
-        // if (blueCards[v].difficulty == difficulties[1].id) {
-        //   if (pushCount != 2) {
-        //   } else {
-        //     console.log(`count after ${count2}`)
-        //     console.log(`card ${blueCards[v]}`)
-        //     count2++;
-        //     pushCount++;
-        //   }            
-        // }
       }
+    }
+}
+makePack();
+
+const makeFirstStage = () => {
+  switch ('azathoth') {
+    case 'azathoth':
+      let brownCount = 0;
+      let blueCount = 0;
+      let greenCount = 0;
+      for (let i = 0; i < draftPack.length; i++) {
+        if (draftPack[i].color === 'green') {
+          if (greenCount < 1) {
+            pack.firstStage.push(draftPack[i])
+            greenCount++;
+          } if (greenCount == 1) {
+            break
+          }        
+        }
+      }
+      for (let j = 0; j < draftPack.length; j++) {
+        if (draftPack[j].color === 'blue') {
+          if (blueCount < 1) {
+            pack.firstStage.push(draftPack[j])
+            blueCount++;
+          } if (blueCount == 2) {
+            break
+          }
+        }
+      }
+      for (let k = 0; k < draftPack.length; k++) {
+        if (draftPack[k].color === 'brown') {
+          if (brownCount < 2) {
+            pack.firstStage.push(draftPack[k])
+            brownCount++;
+          } if (brownCount == 3) {
+            break
+          }
+        }
+      }
+    }
+}
+const makeSecondStage = () => {
+  switch ('azathoth') {
+    case 'azathoth':
+      let brownCount = 0;
+      let blueCount = 0;
+      let greenCount = 0;
+      for (let i = 0; i < draftPack.length; i++) {
+        if (draftPack[i].color === 'green') {
+          if (greenCount < 2) {
+            pack.secondStage.push(draftPack[i])
+            greenCount++;
+          } if (greenCount == 3) {
+            break
+          }        
+        }
+        if (draftPack[i].color === 'blue') {
+          if (blueCount < 1) {
+            pack.secondStage.push(draftPack[i])
+            blueCount++;
+          } if (blueCount == 2) {
+            break
+          }
+        }
+        if (draftPack[i].color === 'brown') {
+          if (brownCount < 3) {
+            pack.secondStage.push(draftPack[i])
+            brownCount++;
+          } if (brownCount == 4) {
+            break
+          }
+        }
+      }
+    }
+}
+const makeThirdStage = () => {
+  switch ('azathoth') {
+    case 'azathoth':
+      let brownCount = 0;
+      let blueCount = 0;
+      let greenCount = 0;
+      for (let i = 0; i < draftPack.length; i++) {
+        if (draftPack[i].color === 'green') {
+          if (greenCount < 2) {
+            pack.thirdStage.push(draftPack[i])
+            greenCount++;
+          } if (greenCount == 3) {
+            break
+          }        
+        }
+        if (draftPack[i].color === 'brown') {
+          if (brownCount < 4) {
+            pack.thirdStage.push(draftPack[i])
+            brownCount++;
+          } if (brownCount == 5) {
+            break
+          }
+        }
+      }
+    }
+}
+makeFirstStage();
+makeSecondStage();
+makeThirdStage();
+
+const deckContainer = document.querySelector('.deck-container'); 
+
+const makeShuffleBtn = () => {
+  let shuffleBtn = document.createElement('span');
+  deckContainer.append(shuffleBtn);
+  shuffleBtn.classList.add('shuffle-button');
+  shuffleBtn.textContent = 'Замешать колоду'
+}
+makeShuffleBtn();
+
+const makeCurrState = () => {
+  let currState = document.createElement('div');
+  deckContainer.append(currState);
+  currState.classList.add('current-state');
+  for (let i = 0; i < Object.keys(pack).length; i++) {
+    let stage = document.createElement('div');
+    currState.appendChild(stage);
+    stage.classList.add('stage-container');
   }
 }
+makeCurrState();
 
-makePack();
-console.log(draftPack)
+const makeDots = () => {
+  let stage = document.querySelectorAll('.stage-container');
+  stage.forEach(x => {
+    let dot1 = document.createElement('div');
+    let dot2 = document.createElement('div');
+    let dot3 = document.createElement('div');
+    x.appendChild(dot1);
+    x.appendChild(dot2);
+    x.appendChild(dot3);
+    dot1.classList.add('dot');
+    dot1.classList.add('green')
+    dot2.classList.add('dot');
+    dot2.classList.add('brown')
+    dot3.classList.add('dot');
+    dot3.classList.add('blue')
+  })
+  // for (let k = 0; k < 3; k++) {
+  // let dot = document.createElement('div');
+  // stage.classList.add('stage-container');
+  // stage.appendChild(dot);
+  // }
+}
+makeDots();
+console.log(pack)
+console.log(Object.keys(pack))
+
 // take 5 green cards with diff easy
 // take 9 brown cards with diff easy
 // take 2 blue cards with diff easy
