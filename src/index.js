@@ -168,7 +168,7 @@ const makeFirstStage = () => {
           }
         }
       }
-    }
+  }
 }
 const makeSecondStage = () => {
   switch ('azathoth') {
@@ -202,7 +202,7 @@ const makeSecondStage = () => {
           }
         }
       }
-    }
+  }
 }
 const makeThirdStage = () => {
   switch ('azathoth') {
@@ -228,7 +228,7 @@ const makeThirdStage = () => {
           }
         }
       }
-    }
+  }
 }
 makeFirstStage();
 makeSecondStage();
@@ -244,21 +244,37 @@ const makeShuffleBtn = () => {
 }
 makeShuffleBtn();
 
+let captionsText = ['Первая стадия', 'Вторая стадия', 'Третья стадия'];
+
 const makeCurrState = () => {
   let currState = document.createElement('div');
+  let deck = document.createElement('div');
+  let lastCard = document.createElement('div');
+  deckContainer.append(deck);
   deckContainer.append(currState);
+  deckContainer.append(lastCard);
+  deck.classList.add('deck');
+  lastCard.classList.add('last-card');
+  deck.style.backgroundImage =`url(../assets/mythicCardBackground.png)`;
   currState.classList.add('current-state');
   for (let i = 0; i < Object.keys(pack).length; i++) {
     let stage = document.createElement('div');
+    let dotContainer = document.createElement('div');
+    let caption = document.createElement('span');
     currState.appendChild(stage);
     stage.classList.add('stage-container');
+    stage.appendChild(dotContainer);
+    dotContainer.classList.add('dots-container');
+    dotContainer.appendChild(caption);
+    caption.classList.add('stage-text');
+    caption.innerHTML = captionsText[i];
   }
 }
 makeCurrState();
 
 const makeDots = () => {
-  let stage = document.querySelectorAll('.stage-container');
-  stage.forEach(x => {
+  let container = document.querySelectorAll('.dots-container');
+  container.forEach(x => {
     let dot1 = document.createElement('div');
     let dot2 = document.createElement('div');
     let dot3 = document.createElement('div');
@@ -266,21 +282,107 @@ const makeDots = () => {
     x.appendChild(dot2);
     x.appendChild(dot3);
     dot1.classList.add('dot');
-    dot1.classList.add('green')
+    dot1.classList.add('green');
     dot2.classList.add('dot');
-    dot2.classList.add('brown')
+    dot2.classList.add('brown');
     dot3.classList.add('dot');
-    dot3.classList.add('blue')
+    dot3.classList.add('blue');
   })
-  // for (let k = 0; k < 3; k++) {
-  // let dot = document.createElement('div');
-  // stage.classList.add('stage-container');
-  // stage.appendChild(dot);
-  // }
 }
+
 makeDots();
-console.log(pack)
-console.log(Object.keys(pack))
+
+let numObj = Object.keys(pack)
+let dots = document.querySelectorAll('.dot');
+// console.log(numObj[0])
+
+const fillDots = () => {
+  let brownCount1 = 0;
+  let blueCount1 = 0;
+  let greenCount1 = 0;
+  let brownCount2 = 0;
+  let blueCount2= 0;
+  let greenCount2 = 0;
+  let brownCount3 = 0;
+  let blueCount3 = 0;
+  let greenCount3 = 0;
+  for (let i = 0; i < Object.values(pack).length; i++ ) {
+    for (let j = 0; j < Object.values(pack)[i].length; j++) {
+      if (Object.keys(pack)[i] === numObj[0]) {
+        if (Object.values(pack)[i][j].color === 'green' && numObj[0]) {
+          greenCount1++;
+        }
+        if (Object.values(pack)[i][j].color === 'blue' && numObj[0]) {
+          blueCount1++;
+        }
+        if (Object.values(pack)[i][j].color === 'brown' && numObj[0]) {
+          brownCount1++;
+        }
+        for (let k = 0; k < dots.length - 6; k++) {
+          if (dots[k].classList.contains('green')) {
+            dots[k].textContent = greenCount1;
+          }
+          if (dots[k].classList.contains('blue')) {
+            dots[k].textContent = blueCount1;
+          }
+          if (dots[k].classList.contains('brown')) {
+            dots[k].textContent = brownCount1;
+          }
+        }
+      }
+      if (Object.keys(pack)[i] === numObj[1]) {
+        if (Object.values(pack)[i][j].color === 'green' && numObj[1]) {
+          greenCount2++;
+        }
+        if (Object.values(pack)[i][j].color === 'blue' && numObj[1]) {
+          blueCount2++;
+        }
+        if (Object.values(pack)[i][j].color === 'brown' && numObj[1]) {
+          brownCount2++;
+        }
+        for (let k = 3; k < dots.length - 3; k++) {
+          if (dots[k].classList.contains('green')) {
+            dots[k].textContent = greenCount2;
+          }
+          if (dots[k].classList.contains('blue')) {
+            dots[k].textContent = blueCount2;
+          }
+          if (dots[k].classList.contains('brown')) {
+            dots[k].textContent = brownCount2;
+          }
+        }
+      }
+      if (Object.keys(pack)[i] === numObj[2]) {
+        if (Object.values(pack)[i][j].color === 'green' && numObj[2]) {
+          greenCount3++;
+        }
+        if (Object.values(pack)[i][j].color === 'blue' && numObj[2]) {
+          blueCount3++;
+        }
+        if (Object.values(pack)[i][j].color === 'brown' && numObj[2]) {
+          brownCount3++;
+        }
+        for (let k = 6; k < dots.length; k++) {
+          if (dots[k].classList.contains('green')) {
+            dots[k].textContent = greenCount3;
+          }
+          if (dots[k].classList.contains('blue')) {
+            dots[k].textContent = blueCount3;
+          }
+          if (dots[k].classList.contains('brown')) {
+            dots[k].textContent = brownCount3;
+          }
+        }
+      }
+    }
+  }
+}
+
+fillDots();
+
+// console.log(Object.values(pack).length)
+// console.log(Object.values(pack)[0])
+// console.log(dots[0].classList.contains('green'))
 
 // take 5 green cards with diff easy
 // take 9 brown cards with diff easy
