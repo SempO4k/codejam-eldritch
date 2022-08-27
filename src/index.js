@@ -14,12 +14,12 @@ let pack = {
 
 let dropPack = [];
 
-let difficulty = 'easy';
+let difficulty = 'very-easy';
 
 const createAncients = () => {
   let ancContainer = document.querySelector('.ancients-container');
 
-  for(let i = 0; i < ancients.length; i++) {
+  for (let i = 0; i < ancients.length - 3; i++) {
     let div = document.createElement('div');
     ancContainer.append(div);
     div.classList.add('ancient-card');
@@ -46,6 +46,7 @@ function highlightAnc(node) {
   if (ancientsId) {
     ancientsId.classList.remove('card-active')
   }
+
   ancientsId = node;
   ancientsId.classList.add('card-active');
 }
@@ -53,7 +54,7 @@ function highlightAnc(node) {
 const createDifficulty = () => {
   let diffContainer = document.querySelector('.difficulty-container');
 
-  for (let i = 0; i < difficulties.length; i++) {
+  for (let i = 0; i < difficulties.length - 3; i++) {
     let div = document.createElement('div');
     diffContainer.append(div);
     div.classList.add('difficulty');
@@ -88,7 +89,7 @@ const makePack = () => {
   let brownCount = 0;
   let blueCount = 0;
   let greenCount = 0;
-  switch ('very-easy') {
+  switch (difficulty) {
     case difficulties[0].id:
       // take green cards in draft
       for (let i = 0 ; i < greenCards.length; i++) {
@@ -128,11 +129,12 @@ const makePack = () => {
           break
         }
       }
+      draftPack.sort(() => Math.random() - 0.5)
     }
 }
 makePack();
 
-console.log(draftPack)
+//console.log(draftPack)
 
 const makeFirstStage = () => {
   switch ('azathoth') {
@@ -238,7 +240,7 @@ makeFirstStage();
 makeSecondStage();
 makeThirdStage();
 
-console.log(pack)
+//console.log(pack)
 
 const deckContainer = document.querySelector('.deck-container'); 
 
@@ -260,6 +262,9 @@ const makeCurrState = () => {
   deckContainer.append(currState);
   deckContainer.append(lastCard);
   deck.classList.add('deck');
+  deck.style.display = 'none';
+  currState.style.display = 'none';
+  lastCard.style.display = 'none';
   lastCard.classList.add('last-card');
   deck.style.backgroundImage =`url(../assets/mythicCardBackground.png)`;
   currState.classList.add('current-state');
@@ -294,13 +299,15 @@ const makeDots = () => {
     dot3.classList.add('dot');
     dot3.classList.add('blue');
   })
+  container.forEach(x => {
+    x.style.display = 'none';
+  })
 }
 
 makeDots();
 
 let numObj = Object.keys(pack)
 let dots = document.querySelectorAll('.dot');
-// console.log(numObj[0])
 
 const fillDots = () => {
   let brownCount1 = 0;
@@ -324,7 +331,6 @@ const fillDots = () => {
           }
           if (Object.values(pack)[i][j].color === 'brown' && numObj[0]) {
             brownCount1++;
-            // console.log('plus')
           }
           for (let k = 0; k < dots.length - 6; k++) {
             if (dots[k].classList.contains('green')) {
@@ -337,7 +343,6 @@ const fillDots = () => {
               dots[k].textContent = brownCount1;
             }
           }
-          // console.log(brownCount1)
         }  
       } else {
         for (let k = 0; k < dots.length - 6; k++) {
@@ -442,10 +447,6 @@ const addInStack = () => {
 
 addInStack()
 
-const openCard = () => {
-
-}
-
 let lastCrd = document.querySelector('.last-card');
 document.querySelector('.deck').addEventListener('click', () => {
   let operation = stack.pop();
@@ -481,27 +482,15 @@ document.querySelector('.deck').addEventListener('click', () => {
   console.log('execute', operation);
 })
 
-// console.log(stack)
-//console.log(Object.values(pack)[0][1])
-// console.log(dots[0].classList.contains('green'))
+const openDeck = () => {
+  document.querySelectorAll('.dots-container').forEach(x => {
+    x.style.display = 'flex';
+  })
+  document.querySelector('.deck').style.display = 'flex';
+  document.querySelector('.current-state').style.display = 'flex';
+  document.querySelector('.last-card').style.display = 'block';
+  fillDots();
+  document.querySelector('.shuffle-button').style.display = 'none';
+}
 
-// take 5 green cards with diff easy
-// take 9 brown cards with diff easy
-// take 2 blue cards with diff easy
-// if cards not enough you need take normal cards
-// case difficulties[1].id:
-
-// console.log(blueCards.length)
-//console.log(difficulties[0].id)
-//Очень легкий уровень сложности: 
-//из набора берутся все карты со снежинками, если карт не хватает то добираются обычные карты
-//blue - со снежинками
-// if not enough take brown
-
-//сложность вери-изи
-//9 коричневых карт
-//5 коричневых карт (brown) со снежинкой (difficulty:easy)  и добираются обычные
-
-// !
-// ! карты мифов по цвету
-// ! green brown blue
+document.querySelector('.shuffle-button').addEventListener('click', openDeck);
