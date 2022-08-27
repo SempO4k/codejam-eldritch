@@ -132,6 +132,8 @@ const makePack = () => {
 }
 makePack();
 
+console.log(draftPack)
+
 const makeFirstStage = () => {
   switch ('azathoth') {
     case 'azathoth':
@@ -139,7 +141,7 @@ const makeFirstStage = () => {
       let blueCount = 0;
       let greenCount = 0;
       for (let i = 0; i < draftPack.length; i++) {
-        if (draftPack[i].color === 'green') {
+        if (draftPack[i].color === 'green' && !(pack.firstStage.includes(draftPack[i]))) {
           if (greenCount < 1) {
             pack.firstStage.push(draftPack[i])
             greenCount++;
@@ -149,7 +151,7 @@ const makeFirstStage = () => {
         }
       }
       for (let j = 0; j < draftPack.length; j++) {
-        if (draftPack[j].color === 'blue') {
+        if (draftPack[j].color === 'blue' && !(pack.firstStage.includes(draftPack[j]))) {
           if (blueCount < 1) {
             pack.firstStage.push(draftPack[j])
             blueCount++;
@@ -159,7 +161,7 @@ const makeFirstStage = () => {
         }
       }
       for (let k = 0; k < draftPack.length; k++) {
-        if (draftPack[k].color === 'brown') {
+        if (draftPack[k].color === 'brown' && !(pack.firstStage.includes(draftPack[k]))) {
           if (brownCount < 2) {
             pack.firstStage.push(draftPack[k])
             brownCount++;
@@ -177,7 +179,7 @@ const makeSecondStage = () => {
       let blueCount = 0;
       let greenCount = 0;
       for (let i = 0; i < draftPack.length; i++) {
-        if (draftPack[i].color === 'green') {
+        if (draftPack[i].color === 'green' && !(pack.firstStage.includes(draftPack[i]))) {
           if (greenCount < 2) {
             pack.secondStage.push(draftPack[i])
             greenCount++;
@@ -185,7 +187,7 @@ const makeSecondStage = () => {
             break
           }        
         }
-        if (draftPack[i].color === 'blue') {
+        if (draftPack[i].color === 'blue' && !(pack.firstStage.includes(draftPack[i]))) {
           if (blueCount < 1) {
             pack.secondStage.push(draftPack[i])
             blueCount++;
@@ -193,7 +195,7 @@ const makeSecondStage = () => {
             break
           }
         }
-        if (draftPack[i].color === 'brown') {
+        if (draftPack[i].color === 'brown' && !(pack.firstStage.includes(draftPack[i]))) {
           if (brownCount < 3) {
             pack.secondStage.push(draftPack[i])
             brownCount++;
@@ -204,6 +206,7 @@ const makeSecondStage = () => {
       }
   }
 }
+
 const makeThirdStage = () => {
   switch ('azathoth') {
     case 'azathoth':
@@ -211,7 +214,7 @@ const makeThirdStage = () => {
       let blueCount = 0;
       let greenCount = 0;
       for (let i = 0; i < draftPack.length; i++) {
-        if (draftPack[i].color === 'green') {
+        if (draftPack[i].color === 'green' && !(pack.firstStage.includes(draftPack[i])) && !(pack.secondStage.includes(draftPack[i]))) {
           if (greenCount < 2) {
             pack.thirdStage.push(draftPack[i])
             greenCount++;
@@ -219,7 +222,7 @@ const makeThirdStage = () => {
             break
           }        
         }
-        if (draftPack[i].color === 'brown') {
+        if (draftPack[i].color === 'brown' && !(pack.firstStage.includes(draftPack[i])) && !(pack.secondStage.includes(draftPack[i]))) {
           if (brownCount < 4) {
             pack.thirdStage.push(draftPack[i])
             brownCount++;
@@ -230,9 +233,12 @@ const makeThirdStage = () => {
       }
   }
 }
+
 makeFirstStage();
 makeSecondStage();
 makeThirdStage();
+
+console.log(pack)
 
 const deckContainer = document.querySelector('.deck-container'); 
 
@@ -308,80 +314,175 @@ const fillDots = () => {
   let greenCount3 = 0;
   for (let i = 0; i < Object.values(pack).length; i++ ) {
     for (let j = 0; j < Object.values(pack)[i].length; j++) {
-      if (Object.keys(pack)[i] === numObj[0]) {
-        if (Object.values(pack)[i][j].color === 'green' && numObj[0]) {
-          greenCount1++;
-        }
-        if (Object.values(pack)[i][j].color === 'blue' && numObj[0]) {
-          blueCount1++;
-        }
-        if (Object.values(pack)[i][j].color === 'brown' && numObj[0]) {
-          brownCount1++;
-        }
+      if (pack.firstStage.length != 0) {
+        if (Object.keys(pack)[i] === numObj[0]) {
+          if (Object.values(pack)[i][j].color === 'green' && numObj[0]) {
+            greenCount1++;
+          }
+          if (Object.values(pack)[i][j].color === 'blue' && numObj[0]) {
+            blueCount1++;
+          }
+          if (Object.values(pack)[i][j].color === 'brown' && numObj[0]) {
+            brownCount1++;
+            // console.log('plus')
+          }
+          for (let k = 0; k < dots.length - 6; k++) {
+            if (dots[k].classList.contains('green')) {
+              dots[k].textContent = greenCount1;
+            }
+            if (dots[k].classList.contains('blue')) {
+              dots[k].textContent = blueCount1;
+            }
+            if (dots[k].classList.contains('brown')) {
+              dots[k].textContent = brownCount1;
+            }
+          }
+          // console.log(brownCount1)
+        }  
+      } else {
         for (let k = 0; k < dots.length - 6; k++) {
           if (dots[k].classList.contains('green')) {
-            dots[k].textContent = greenCount1;
+            dots[k].textContent = 0;
           }
           if (dots[k].classList.contains('blue')) {
-            dots[k].textContent = blueCount1;
+            dots[k].textContent = 0;
           }
           if (dots[k].classList.contains('brown')) {
-            dots[k].textContent = brownCount1;
+            dots[k].textContent = 0;
           }
         }
       }
-      if (Object.keys(pack)[i] === numObj[1]) {
-        if (Object.values(pack)[i][j].color === 'green' && numObj[1]) {
-          greenCount2++;
+      if (pack.secondStage.length != 0) {
+        if (Object.keys(pack)[i] === numObj[1]) {
+          if (Object.values(pack)[i][j].color === 'green' && numObj[1]) {
+            greenCount2++;
+          }
+          if (Object.values(pack)[i][j].color === 'blue' && numObj[1]) {
+            blueCount2++;
+          }
+          if (Object.values(pack)[i][j].color === 'brown' && numObj[1]) {
+            brownCount2++;
+          }
+          for (let k = 3; k < dots.length - 3; k++) {
+            if (dots[k].classList.contains('green')) {
+              dots[k].textContent = greenCount2;
+            }
+            if (dots[k].classList.contains('blue')) {
+              dots[k].textContent = blueCount2;
+            }
+            if (dots[k].classList.contains('brown')) {
+              dots[k].textContent = brownCount2;
+            }
+          }
         }
-        if (Object.values(pack)[i][j].color === 'blue' && numObj[1]) {
-          blueCount2++;
-        }
-        if (Object.values(pack)[i][j].color === 'brown' && numObj[1]) {
-          brownCount2++;
-        }
+      } else {
         for (let k = 3; k < dots.length - 3; k++) {
           if (dots[k].classList.contains('green')) {
-            dots[k].textContent = greenCount2;
+            dots[k].textContent = '0';
           }
           if (dots[k].classList.contains('blue')) {
-            dots[k].textContent = blueCount2;
+            dots[k].textContent = '0';
           }
           if (dots[k].classList.contains('brown')) {
-            dots[k].textContent = brownCount2;
+            dots[k].textContent = '0';
           }
         }
       }
-      if (Object.keys(pack)[i] === numObj[2]) {
-        if (Object.values(pack)[i][j].color === 'green' && numObj[2]) {
-          greenCount3++;
+      if (pack.thirdStage.length != 0) {
+        if (Object.keys(pack)[i] === numObj[2]) {
+          if (Object.values(pack)[i][j].color === 'green' && numObj[2]) {
+            greenCount3++;
+          }
+          if (Object.values(pack)[i][j].color === 'blue' && numObj[2]) {
+            blueCount3++;
+          }
+          if (Object.values(pack)[i][j].color === 'brown' && numObj[2]) {
+            brownCount3++;
+          }
+          for (let k = 6; k < dots.length; k++) {
+            if (dots[k].classList.contains('green')) {
+              dots[k].textContent = greenCount3;
+            }
+            if (dots[k].classList.contains('blue')) {
+              dots[k].textContent = blueCount3;
+            }
+            if (dots[k].classList.contains('brown')) {
+              dots[k].textContent = brownCount3;
+            }
+          }
         }
-        if (Object.values(pack)[i][j].color === 'blue' && numObj[2]) {
-          blueCount3++;
-        }
-        if (Object.values(pack)[i][j].color === 'brown' && numObj[2]) {
-          brownCount3++;
-        }
+      } else {
         for (let k = 6; k < dots.length; k++) {
           if (dots[k].classList.contains('green')) {
-            dots[k].textContent = greenCount3;
+            dots[k].textContent = '0';
           }
           if (dots[k].classList.contains('blue')) {
-            dots[k].textContent = blueCount3;
+            dots[k].textContent = '0';
           }
           if (dots[k].classList.contains('brown')) {
-            dots[k].textContent = brownCount3;
+            dots[k].textContent = '0';
           }
         }
+
       }
     }
   }
 }
 
-fillDots();
 
-// console.log(Object.values(pack).length)
-// console.log(Object.values(pack)[0])
+let stack = [];
+
+const addInStack = () => {
+  for (let i = 0; i < Object.values(pack).length; i++ ) {
+    for (let j = 0; j < Object.values(pack)[i].length; j++) {
+      stack.unshift(Object.values(pack)[i][j])
+    }
+  }
+}
+
+addInStack()
+
+const openCard = () => {
+
+}
+
+let lastCrd = document.querySelector('.last-card');
+document.querySelector('.deck').addEventListener('click', () => {
+  let operation = stack.pop();
+  if (pack.firstStage.includes(operation)) {
+    pack.firstStage.shift();
+    lastCrd.style.backgroundImage = `url(${operation.cardFace})`;
+    fillDots();
+  }
+  if (pack.secondStage.includes(operation)) {
+    pack.secondStage.shift();
+    lastCrd.style.backgroundImage = `url(${operation.cardFace})`;
+    fillDots();
+  }
+  if (pack.thirdStage.includes(operation)) {
+    pack.thirdStage.shift();
+    lastCrd.style.backgroundImage = `url(${operation.cardFace})`;
+    fillDots();
+    if (stack.length === 0) {
+      for (let k = 6; k < dots.length; k++) {
+        if (dots[k].classList.contains('green')) {
+          dots[k].textContent = '0';
+        }
+        if (dots[k].classList.contains('blue')) {
+          dots[k].textContent = '0';
+        }
+        if (dots[k].classList.contains('brown')) {
+          dots[k].textContent = '0';
+        }
+      }
+      document.querySelector('.deck').style.display = `none`;
+    }
+  }
+  console.log('execute', operation);
+})
+
+// console.log(stack)
+//console.log(Object.values(pack)[0][1])
 // console.log(dots[0].classList.contains('green'))
 
 // take 5 green cards with diff easy
